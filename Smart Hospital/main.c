@@ -41,3 +41,24 @@ double grossTotal[100];
 double ageDiscount[100];
 double finalPayable[100];
 double waitTime[100];
+
+
+//Bed Allocation
+
+int allocateBed(int patientIndex)
+{
+    int wardIndex = wardID[patientIndex] - 1;
+
+    for(int i =0; i < wardCapacity[wardIndex]; i++)
+    {
+        if(bedOccupancy[wardIndex][i] == 0)
+        {
+            bedOccupancy[wardIndex][i] = 1;
+            bedNumber[patientIndex] = i + 1;
+
+            return 1;
+        }
+    }
+
+    return 0;
+}
