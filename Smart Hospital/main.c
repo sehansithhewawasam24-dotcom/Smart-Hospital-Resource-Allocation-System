@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 //Patient Data
 //100 means that our system can store up to 100 patients.
@@ -171,3 +172,103 @@ double calculateWaitTime(int patientIndex)
 
     return queueCount * consultationTime[specialtyIndex];
 }
+
+///Patients sorting by states named Critical, Urgent and Normal///
+
+//Swap Patients
+
+void swapPatients(int i, int j)
+{
+    char tempName[50];
+    int tempInt;
+    double tempDouble;
+
+ //SWAP patient names
+
+    strcpy(tempName, patientName[i]);
+    strcpy(patientName[i], patientName[j]);
+    strcpy(patientName[j], tempName);
+
+ //SWAP integer data
+
+    tempInt = patientAge[i];
+    patientAge[i] = patientAge[j];
+    patientAge[j] = tempInt;
+
+    tempInt = urgencyLevel[i];
+    urgencyLevel[i] = urgencyLevel[j];
+    urgencyLevel[j] = tempInt;
+
+    tempInt = specialtyID[i];
+    specialtyID[i] = specialtyID[j];
+    specialtyID[j] = tempInt;
+
+    tempInt = wardID[i];
+    wardID[i] = wardID[j];
+    wardID[j] = tempInt;
+
+    tempInt = daysAdmitted[i];
+    daysAdmitted[i] = daysAdmitted[j];
+    daysAdmitted[j] = tempInt;
+
+    tempInt = registrationOrder[i];
+    registrationOrder[i] = registrationOrder[j];
+    registrationOrder[j] = tempInt;
+
+    tempInt = bedNumber[i];
+    bedNumber[i] = bedNumber[j];
+    bedNumber[j] = tempInt;
+
+ //SWAP billing data
+
+    tempDouble = baseFee[i];
+    baseFee[i] = baseFee[j];
+    baseFee[j] = tempDouble;
+
+    tempDouble = emergencySurcharge[j];
+    emergencySurcharge[i] = emergencySurcharge[j];
+    emergencySurcharge[j] = tempDouble;
+
+    tempDouble = wardCost[i];
+    wardCost[i] = wardCost[j];
+    wardCost[j] = tempDouble;;
+
+    tempDouble = grossTotal[i];
+    grossTotal[i] = grossTotal[j];
+    grossTotal[j] = tempDouble;
+
+    tempDouble = ageDiscount[i];
+    ageDiscount[i] = ageDiscount[j];
+    ageDiscount[j] = tempDouble;
+
+    tempDouble = finalPayable[i];
+    finalPayable[i] = finalPayable[j];
+    finalPayable[j] = tempDouble;
+
+    tempDouble = waitTime[i];
+    waitTime[i] = waitTime[j];
+    waitTime[j] = tempDouble;
+
+}
+
+void sortPatients()
+{
+   for(int i =0; i < patientCount - 1; i++)
+    {
+
+        for(int j = 0; j < patientCount - i; j++)
+        {
+
+            if(urgencyLevel[j] < urgencyLevel[j + 1] || (urgencyLevel[j] == urgencyLevel[j + 1] && registrationOrder[j] > registrationOrder[j + 1]))
+                {
+                    swapPatients(j, j+1);
+
+                }
+
+        }
+
+
+    }
+
+}
+
