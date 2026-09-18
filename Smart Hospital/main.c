@@ -136,3 +136,38 @@ double calculateFinalPayable(int patientIndex)
 {
     return grossTotal[patientIndex] - ageDiscount[patientindex];
 }
+
+
+    ///Wait Time = Queue Count * Average Time per Patient///
+
+//Queue count calculation function
+
+int calculateQueueCount(int patientindex)
+{
+
+    int count = 0;
+
+    for(int i = 0; i < patientIndex; i++)
+    {
+
+        if(specialtyID[i] == specialtyID[patientindex])
+        {
+            count++;
+        }
+
+    }
+
+    return count;
+}
+
+//wait time function
+
+double calculateWaitTime(int patientIndex)
+{
+
+    int queueCount = calculateQueueCount(patientIndex);
+
+    int specialtyIndex = specialtyID[patientIndex] - 1;
+
+    return queueCount * consultationTime[specialtyIndex];
+}
