@@ -62,3 +62,77 @@ int allocateBed(int patientIndex)
 
     return 0;
 }
+
+//Billing Calculations
+
+    ///Base Fee///
+
+double calculateBaseFee(int patientIndex)
+{
+    int specialtyIndex = specialtyID[patientIndex] - 1;
+
+    return specialtyFee[specialtyIndex];
+}
+
+    ///Emergency Surcharge = Base fee * surcharge rate///
+
+ double calculateSurcharge(int patientIndex)
+ {
+     double rate;
+
+     if(urgencyLevel[patientIndex] == 1)
+    {
+        rate = 0.00;
+
+    } else if(urgencyLevel[patientIndex] == 2)
+    {
+        rate = 0.20;
+     }
+     else
+     {
+         rate = 0.50;
+     }
+
+     return baseFee[patientIndex] * rate;
+ }
+
+    ///Ward Cost = Number of admitted days * Ward daaily rate///
+
+double calculateWardCost(int patientIndex)
+{
+
+    int wardIndex = wardID[patientIndex] - 1;
+
+    return daysAdmitted[patientIndex] * wardRate[wardIndex];
+
+}
+
+    ///Gross Total = Base fee + Emergency surcharge + Ward cost///
+
+double calculateGrossTotal(int patientIndex)
+{
+
+    return baseFee[patientIndex] + emergencySurcharge[patientIndex] + wardCost[patientIndex];
+
+}
+
+
+    ///Age Discount///
+
+double calculateAgeDiscount(int patientIndex)
+{
+    if(patientAge[patientIndex] < 5 || patientAge[patientIndex] > 65)
+    {
+        return grossTotal[patientIndex * 0.15]
+
+    }
+
+    return 0.0;
+}
+
+    ///Final Payable Amount = Gross total - Age discount///
+
+double calculateFinalPayable(int patientIndex)
+{
+    return grossTotal[patientIndex] - ageDiscount[patientindex];
+}
