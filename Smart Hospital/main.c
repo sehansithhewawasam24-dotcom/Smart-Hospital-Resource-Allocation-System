@@ -44,7 +44,7 @@ const int wardCapacity[4] = {20,15,20,10};
 int bedOccupancy[4][20];//4 means 4 wards and 20 means that each ward can have up to 20 beds.
 int bedOccupancy[4][20] = {0};//When the hospital system starts, all beds should be available. For that we use {0}//
 
-/*
+
 ///STEP 5 = BED ALLOCATION
 
 int allocateBed(int patientIndex)
@@ -534,7 +534,7 @@ void displayReports()
 }
 
 
-*/
+
 
 ///STEP 10 = MENU DRIVEN SYSTEM
 
@@ -557,6 +557,72 @@ void displayMenu()
 }
 
 
+//ii)Menu driven system.
 
+
+int main(void)
+{
+    int choice;
+    do
+    {
+        displayMenu();
+
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        if(choice == 1)
+            registerPatient();
+        }
+
+        else if(choice == 2)
+        {
+            sortPatients();
+
+            printf("Patients sorted successfully.\n");
+        }
+
+        else if(choice == 3)
+        {
+            if(patientCount == 0)
+            {
+                printf("NO PATIENTS REGISTERED.\n")
+            }
+
+            else
+            {
+                int patientNumber;
+
+                printf("Enter patient number (1-%d): ", patientCount);
+
+                scanf("%d", &patientCount);
+
+
+                if(patientNumber >= 1 && patientNumber <= patientCount)
+                {
+                    displayBill(patientNumber - 1);
+                }
+
+                else
+                {
+                    printf("Invalid patient number.\n");
+                }
+            }
+
+        }
+
+        else if(choice == 4)
+        {
+            displayReports();
+        }
+
+        else if(choice == 5)
+        {
+            printf("EXITING THE SYSTEM.\n");
+        }
+
+    } while(choice ! = 5);
+
+    return 0;
+}
 
 
