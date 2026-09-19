@@ -15,23 +15,6 @@ int registrationOrder[100];
 int bedNumber[100];
 int patientCount = 0;
 
-//Doctor Specialties
-
-const char *specialtyName[4] = {"Cardiology","Neurology","Paediatrics","General Medicine"};
-const double specialtyFee[4] = {5000.0, 4500.0, 4000.0, 3000.0};
-const int consultationTime[4] = {20, 25, 15, 10};
-const int patientCap[4] = {10, 8, 12, 15};
-
-//Hospital Wards
-
-const char *wardName[4] = {"General Ward", "Private Ward", "Paeditratics Ward", "Emergency Ward"};
-const double wardRate[4] = {3000.0, 6000.0, 4000.0, 5000.0};
-const int wardCapacity[4] = {20,15,20,10};
-
-//Bed Occupancy
-
-int bedOccupancy[4][20];//4 means 4 wards and 20 means that each ward can have up to 20 beds.
-int bedOccupancy[4][20] = {0};//When the hospital system starts, all beds should be available. For that we use {0}//
 
 //Store the Billing values in arrays.
 
@@ -43,8 +26,26 @@ double ageDiscount[100];
 double finalPayable[100];
 double waitTime[100];
 
+//Doctor Specialties(Specialty Lookup Data)
 
-//Bed Allocation
+const char *specialtyName[4] = {"Cardiology","Neurology","Paediatrics","General Medicine"};
+const double specialtyFee[4] = {5000.0, 4500.0, 4000.0, 3000.0};
+const int consultationTime[4] = {20, 25, 15, 10};
+const int patientCap[4] = {10, 8, 12, 15};
+
+//Hospital Wards(Ward Lookup Data)
+
+const char *wardName[4] = {"General Ward", "Private Ward", "Paeditratics Ward", "Emergency Ward"};
+const double wardRate[4] = {3000.0, 6000.0, 4000.0, 5000.0};
+const int wardCapacity[4] = {20,15,20,10};
+
+//Bed Occupancy
+
+int bedOccupancy[4][20];//4 means 4 wards and 20 means that each ward can have up to 20 beds.
+int bedOccupancy[4][20] = {0};//When the hospital system starts, all beds should be available. For that we use {0}//
+
+
+///STEP 5 = BED ALLOCATION
 
 int allocateBed(int patientIndex)
 {
@@ -64,7 +65,7 @@ int allocateBed(int patientIndex)
     return 0;
 }
 
-//Billing Calculations
+///STEP 6 = BILLING CALCULATIONS
 
     ///Base Fee///
 
@@ -141,7 +142,7 @@ double calculateFinalPayable(int patientIndex)
 
     ///Wait Time = Queue Count * Average Time per Patient///
 
-//Queue count calculation function
+// i)Queue count calculation function
 
 int calculateQueueCount(int patientIndex)
 {
@@ -161,7 +162,7 @@ int calculateQueueCount(int patientIndex)
     return count;
 }
 
-//wait time function
+// ii)wait time function
 
 double calculateWaitTime(int patientIndex)
 {
@@ -171,6 +172,87 @@ double calculateWaitTime(int patientIndex)
     int specialtyIndex = specialtyID[patientIndex] - 1;
 
     return queueCount * consultationTime[specialtyIndex];
+}
+
+
+///STEP 4 = PATIENT REGISTRATION
+
+void registerPatient()
+{
+//Registration form.
+
+    printf("--- PATIENT REGISTRATION ---\n");
+
+    //Name Input
+    printf("Enter patient name: ");
+
+    scanf(" %[^\n]", patientName[patientCount]);
+
+    //Age Input
+    printf("Enter age: ");
+
+    scanf("%d", &patientAge[patientCount]);
+
+    //Urgency Level
+    printf("Enter urgency level (1=Normal, 2=Urgent, 3=Critical): ");
+
+    scanf("%d", &urgencyLevel[patientCount]);
+
+    //specialtyID Input
+    printf("Enter specialty ID (1-4): ");
+
+    scanf("%d", &specialtyID[patientCount]);
+
+    //WardID Input
+    printf("Enter ward ID (1-4): ");
+
+    scanf("%d", &wardID[patientCount]);
+
+    //Admitted Date Input
+    printf("Enter number of days admitted: ");
+
+    scanf("%d", &daysAdmitted[patientCount]);
+
+    //Assign the registration order automatically
+
+    registrationOrder[patientCount] = patientCount + 1;
+
+    //Bed allocation
+    if(allocateBed(patientCount))
+    {
+
+        printf("BED ALLOCATED SUCCESSFULLY.\n");
+    }
+    else
+    {
+        printf("NO BED AVAILABLE IN THE SELECTED WARD.\n");
+
+        return;
+    }
+
+    //Billing calculations
+
+    baseFee[patientCount] = calculateBaseFee(patientCount);
+
+    emergencySurcharge[patientCount] = calculateSurcharge(patientCount);
+
+    wardCost[patientCount] = calculateWardCost(patientCount);
+
+    grossTotal[patientCount] = calculateGrossTotal(patientCount);
+
+    ageDiscount[patientCount] = calculateAgeDiscount(patientCount);
+
+    finalPayable[patientCount] = calculateFinalPayable(patientCount);
+
+    waitTime[patientCount] = calculateWaitTime(patientCount);
+
+    //Increase the patient count
+
+    patientCount++;
+
+    printf("--- PATIENT REGISTERED SUCCESSFULLY. --- \n");
+
+
 }
 
 ///Patients sorting by states named Critical, Urgent and Normal///
@@ -251,6 +333,8 @@ void swapPatients(int i, int j)
 
 }
 
+///STEP 7 - SORT PATIENTS
+
 void sortPatients()
 {
    for(int i =0; i < patientCount - 1; i++)
@@ -273,86 +357,7 @@ void sortPatients()
 }
 
 
-//Patient Intake & Registration
-
-void registerPatient()
-{
-//Registration form.
-
-    printf("--- PATIENT REGISTRATION ---\n");
-
-    //Name Input
-    printf("Enter patient name: ");
-
-    scanf(" %[^\n]", patientName[patientCount]);
-
-    //Age Input
-    printf("Enter age: ");
-
-    scanf("%d", &patientAge[patientCount]);
-
-    //Urgency Level
-    printf("Enter urgency level (1=Normal, 2=Urgent, 3=Critical): ");
-
-    scanf("%d", &urgencyLevel[patientCount]);
-
-    //specialtyID Input
-    printf("Enter specialty ID (1-4): ");
-
-    scanf("%d", &specialtyID[patientCount]);
-
-    //WardID Input
-    printf("Enter ward ID (1-4): ");
-
-    scanf("%d", &wardID[patientCount]);
-
-    //Admitted Date Input
-    printf("Enter number of days admitted: ");
-
-    scanf("%d", &daysAdmitted[patientCount]);
-
-    //Assign the registration order automatically
-
-    registrationOrder[patientCount] = patientCount + 1;
-
-    //Increase the patient count
-
-    patientCount++;
-
-    //Bed allocation
-    if(allocateBed(patientCount))
-    {
-
-        printf("BED ALLOCATED SUCCESSFULLY.\n");
-    }
-    else
-    {
-        printf("NO BED AVAILABLE IN THE SELECTED WARD.\n");
-
-        return;
-    }
-
-    //Billing calculations
-
-    baseFee[patientCount] = calculateBaseFee(patientCount);
-
-    emergencySurcharge[patientCount] = calculateSurcharge(patientCount);
-
-    wardCost[patientCount] = calculateWardCost(patientCount);
-
-    grossTotal[patientCount] = calculateGrossTotal(patientCount);
-
-    ageDiscount[patientCount] = calculateAgeDiscount(patientCount);
-
-    finalPayable[patientCount] = calculateFinalPayable(patientCount);
-
-    waitTime[patientCount] = calculateWaitTime(patientCount);
-
-    printf("--- PATIENT REGISTERED SUCCESSFULLY. --- \n");
-
-}
-
-/// Bill Display/Bill Summary ///
+///STEP 8 = Bill Display/Bill Summary
 
 void displayBill(int patientIndex)
 {
@@ -362,9 +367,9 @@ void displayBill(int patientIndex)
     specialtyIndex = specialtyID[patientIndex] - 1;
     wardIndex = wardID[patientIndex] - 1;
 
-    printf("=======================================================\n");
-    printf("                    PATIENT BILL\n                      ");
-    printf("========================================================\n");
+    printf("\n=======================================================\n\n");
+    printf("                    PATIENT BILL                          ");
+    printf("\n========================================================\n");
 
     printf("Patient Name        : %s\n", patientName[patientIndex]);
 
@@ -382,7 +387,7 @@ void displayBill(int patientIndex)
 
     printf("Estimated Wait Time : %.2f minutes\n", waitTime[patientIndex]);
 
-    printf("-------------------------------------------------------------------");
+    printf("-------------------------------------------------------------------\n");
 
     printf("Base Fee            : Rs.%.2f\n", baseFee[patientIndex]);
 
@@ -394,13 +399,12 @@ void displayBill(int patientIndex)
 
     printf("Age Discount        : Rs.%.2f\n", ageDiscount[patientIndex]);
 
-    printf("-------------------------------------------------------------------");
+    printf("-------------------------------------------------------------------\n");
 
     printf("Final payable       : Rs.%.2f\n", finalPayable[patientIndex]);
 
-    printf("============================= END =================================\n");
+    printf("============================= END =================================\n\n");
 }
-
 
 int main()
 {
