@@ -369,7 +369,7 @@ void displayBill(int patientIndex)
 
     printf("\n=======================================================\n\n");
     printf("                    PATIENT BILL                          ");
-    printf("\n========================================================\n");
+    printf("\n=======================================================\n");
 
     printf("Patient Name        : %s\n", patientName[patientIndex]);
 
@@ -387,7 +387,7 @@ void displayBill(int patientIndex)
 
     printf("Estimated Wait Time : %.2f minutes\n", waitTime[patientIndex]);
 
-    printf("-------------------------------------------------------------------\n");
+    printf("------------------------------------------------------------\n");
 
     printf("Base Fee            : Rs.%.2f\n", baseFee[patientIndex]);
 
@@ -399,12 +399,140 @@ void displayBill(int patientIndex)
 
     printf("Age Discount        : Rs.%.2f\n", ageDiscount[patientIndex]);
 
-    printf("-------------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------\n");
 
     printf("Final payable       : Rs.%.2f\n", finalPayable[patientIndex]);
 
-    printf("============================= END =================================\n\n");
+    printf("============================= END ============================\n\n");
 }
+
+
+///STEP 9 = REPORTS AND ANALYTICS
+
+//i)Total patients by urgency.
+
+void reportPatientsByUrgency()
+{
+    int normal = 0;
+    int urgent = 0;
+    int critical = 0;
+
+    for(int i = 0; i < patientCount; i++)
+    {
+        if(urgencyLevel[i] == 1)
+        {
+            normal++;
+        }
+        else if(urgencyLevel[i] == 2)
+        {
+            urgent++;
+        }
+        else if(urgencyLevel[i] == 3)
+        {
+            critical++;
+        }
+
+
+    }
+
+
+    printf("\n--- PATIENTS BY URGENCY ---\n");
+
+    printf("Normal Patients : %d\n", normal);
+
+    printf("Urgent Patients : %d\n", urgent);
+
+    printf("Critical Patients : %d\n", critical);
+}
+
+//ii)total revenue and total discounts.
+
+void reprotRevenue()
+{
+    double totalRevenue = 0.0;
+    double totalDiscount = 0.0;
+
+    for(int i = 0; i < patientCount; i++)
+    {
+        totalRevenue += finalPayable[i];
+        totalDiscount += ageDiscount[i];
+    }
+
+    printf("\n--- REVENUE REPORT ---\n");
+
+    printf("Total Revenue : Rs.%.2f\n", totalRevenue);
+
+    printf("Total Discounts : Rs%.2f\n", totalDiscount);
+
+}
+
+
+//iii)Bed occupancy percentage by ward.
+
+//Formula :- Occupancy(%) = (Occupied Beds / Total Beds) * 100
+
+void reportBedOccupancy()
+{
+    printf("\n--- BED OCCUPANCY REPORT ---\n");
+
+
+    for (int i = 0; i < 4; i++)
+    {
+        int occupied = 0;
+
+        for(int j = 0; j < wardCapacity[i]; j++)
+        {
+            if(bedOccupancy[i][j] == 1)
+            {
+                occupied++;
+            }
+        }
+
+        double occupancyPercentage = ((double)occupied / wardCapacity[i]) * 100;
+
+
+        printf("%s : %.2f%% occupied\n", wardName[i], occupancyPercentage);
+    }
+}
+
+//iv)Highest-paying patient.
+
+void reportHighestPayingPatient()
+{
+    if(patientCount == 0)
+    {
+        printf("\nNO PATIENTS REGISTERD.\n");
+
+        return;
+    }
+
+    int highestIndex = 0;
+
+    for(int i = 1; i < patientCount; i++)
+    {
+        if(finalPayable[i] > finalPayable[highestIndex])
+        {
+            highestIndex = i;
+        }
+    }
+
+    printf("\n--- HIGHEST PAYING PATIENT ---\n");
+
+    printf("Patient Name : %s\n", patientName[highestIndex]);
+
+    printf("Final Payable : Rs.%.2f\n", finalPayable[highestIndex]);
+}
+
+//COMBINE REPORT INTO MENU
+
+void displayReports()
+{
+    reportPatientsByUrgency();
+    reprotRevenue();
+    reportBedOccupancy();
+    reportHighestPayingPatient();
+}
+
 
 int main()
 {
@@ -419,5 +547,16 @@ int main()
         displayBill(i);
     }
 
+    displayReports();
+
     return 0;
 }
+
+
+
+
+
+
+
+
+
