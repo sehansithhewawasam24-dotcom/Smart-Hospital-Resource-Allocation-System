@@ -44,7 +44,7 @@ const int wardCapacity[4] = {20,15,20,10};
 int bedOccupancy[4][20];//4 means 4 wards and 20 means that each ward can have up to 20 beds.
 int bedOccupancy[4][20] = {0};//When the hospital system starts, all beds should be available. For that we use {0}//
 
-
+/*
 ///STEP 5 = BED ALLOCATION
 
 int allocateBed(int patientIndex)
@@ -534,27 +534,27 @@ void displayReports()
 }
 
 
-int main()
+*/
+
+///STEP 10 = MENU DRIVEN SYSTEM
+
+//i)This function displays the five operations available in the system.
+
+
+void displayMenu()
 {
-    registerPatient();
-    registerPatient();
-    registerPatient();
+    printf("\n=============SMART HOSPITAL SYSTEM=============\n");
 
-    sortPatients();
+    printf("(1). RegisterPatient\n");
 
-    for(int i = 0; i < patientCount; i++)
-    {
-        displayBill(i);
-    }
+    printf("(2). Sort Patients by Priority\n");
 
-    displayReports();
+    printf("(3). Display Patient Bill\n");
 
-    return 0;
+    printf("(4). Display Reports\n");
+
+    printf("(5). Exit\n");
 }
-
-
-
-
 
 
 
