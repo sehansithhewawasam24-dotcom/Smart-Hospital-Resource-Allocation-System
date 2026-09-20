@@ -618,4 +618,35 @@ void displayMenu()
 //patient_records.txt = APPEND THE BILLING RECORDS
 
 
+void saveBedStatus()
+{
+    FILE *file; //A file pointer is created to handle the file.
+
+    file = fopen("beds_status.txt", "w"); //the file beds_status.txt is opened in write mode. 'w' means write new data to the file.
+
+    if(file == NULL) //This checks whether the file could not be opened.
+    {
+        printf("UNABLE TO OPEN beds_status.txt\n");
+
+        return;
+    }
+
+    for(int i = 0; i < 4; i++)
+    {
+        for(int j = 0; j < wardCapacity[i]; j++)
+        {
+            fprintf(file, "%d", bedOccupancy[i][j]); //The 0 or 1 stored in the bedOccupancy array is written to the file.
+        }
+
+        fprintf(file, "\n");
+    }
+
+    fclose(file);
+
+    printf("BED STATUS SAVED SUCCESSFULLY.\n");
+}
+
+
+
+
 
