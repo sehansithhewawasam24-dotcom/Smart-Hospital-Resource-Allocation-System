@@ -611,6 +611,11 @@ void displayMenu()
     printf("(7). Exit\n");
 }
 
+///STEP 11 :- FILE HANDLING
+
+//beds_status.txt = LOAD OR SAVE THE BED STATUS
+
+//patient_records.txt = APPEND THE BILLING RECORDS
 
 
 
