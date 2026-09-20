@@ -646,6 +646,37 @@ void saveBedStatus()
     printf("BED STATUS SAVED SUCCESSFULLY.\n");
 }
 
+void loadBedStatus()
+{
+    FILE *file;
+
+    file = fopen("beds_status.txt", "r"); //"r" means read mode, which is used to read data from the file.
+
+    if(file == NULL)
+    {
+        printf("NO PREVIOUS BED STATUS FOUND.\n");
+
+        return;
+    }
+
+
+    for(int i = 0; i < 4; i++)
+    {
+        for(int j = 0; j < wardCapacity[i]; j++)
+        {
+            fscanf(file, "%d", &bedOccupancy[i][j]); //This reads an integer from the file and stores it in bedOccupancy[i][j]
+        }
+
+    }
+
+
+    fclose(file);
+
+
+    printf("BED STATUS LOADED SUCCESSFULLY.\n");
+
+}
+
 
 
 
