@@ -1,0 +1,10 @@
+Patient Name : ABCD
+Final Payable : 13400.00
+Age Discount : 0.00
+---------------------------------Patient Name : ABCD
+Final Payable : 23400.00
+Age Discount : 0.00
+---------------------------------Patient Name : efgh
+Final Payable : 21000.00
+Age Discount : 0.00
+---------------------------------

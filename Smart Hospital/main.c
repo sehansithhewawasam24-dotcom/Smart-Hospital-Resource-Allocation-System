@@ -175,6 +175,32 @@ double calculateWaitTime(int patientIndex)
 }
 
 
+void savePatientRecord(int patientIndex)
+{
+    FILE *file;
+
+    file = fopen("patient_records.txt", "a"); //'a' means append mode. It adds the new record to the end of the file without deleting existing data.
+
+
+    if(file == NULL)
+    {
+        printf("UNABLE TO OPEN patient_records.txt\n");
+
+        return;
+    }
+
+    fprintf(file, "Patient Name : %s\n", patientName[patientIndex]);
+
+    fprintf(file, "Final Payable : %.2f\n", finalPayable[patientIndex]);
+
+    fprintf(file, "Age Discount : %.2f\n", ageDiscount[patientIndex]);
+
+    fprintf(file, "---------------------------------");
+
+    fclose(file);
+
+}
+
 ///STEP 4 = PATIENT REGISTRATION
 
 void registerPatient()
@@ -249,6 +275,8 @@ void registerPatient()
     //Increase the patient count
 
     patientCount++;
+
+    savePatientRecord(patientCount - 1);
 
     printf("--- PATIENT REGISTERED SUCCESSFULLY. --- \n");
 
@@ -407,6 +435,32 @@ void displayBill(int patientIndex)
 }
 
 
+void showPatientBill()
+{
+    int patientNumber;
+
+    if(patientCount == 0)
+    {
+        printf("NO PATIENT REGISTERED.\n");
+
+        return;
+    }
+
+    printf("Enter patient number (1-%d) : ", patientCount);
+
+    scanf("%d", &patientNumber);
+
+    if(patientNumber >= 1 && patientNumber <= patientCount)
+    {
+        displayBill(patientNumber - 1);
+    }
+
+    else
+    {
+        printf("INVALID PATIENT NUMBER.\n");
+    }
+}
+
 ///STEP 9 = REPORTS AND ANALYTICS
 
 //i)Total patients by urgency.
@@ -538,9 +592,6 @@ void displayReports()
 
 ///STEP 10 = MENU DRIVEN SYSTEM
 
-//i)This function displays the five operations available in the system.
-
-
 void displayMenu()
 {
     printf("\n=============SMART HOSPITAL SYSTEM=============\n");
@@ -553,76 +604,13 @@ void displayMenu()
 
     printf("(4). Display Reports\n");
 
-    printf("(5). Exit\n");
+    printf("(5). Save Bed Status\n");//(5) and (6) related to File handling
+
+    printf("(6). Load Bed Status\n");
+
+    printf("(7). Exit\n");
 }
 
 
-//ii)Menu driven system.
-
-
-int main(void)
-{
-    int choice;
-    do
-    {
-        displayMenu();
-
-        printf("Enter your choice: ");
-        scanf("%d", &choice);
-
-        if(choice == 1)
-            registerPatient();
-        }
-
-        else if(choice == 2)
-        {
-            sortPatients();
-
-            printf("Patients sorted successfully.\n");
-        }
-
-        else if(choice == 3)
-        {
-            if(patientCount == 0)
-            {
-                printf("NO PATIENTS REGISTERED.\n")
-            }
-
-            else
-            {
-                int patientNumber;
-
-                printf("Enter patient number (1-%d): ", patientCount);
-
-                scanf("%d", &patientCount);
-
-
-                if(patientNumber >= 1 && patientNumber <= patientCount)
-                {
-                    displayBill(patientNumber - 1);
-                }
-
-                else
-                {
-                    printf("Invalid patient number.\n");
-                }
-            }
-
-        }
-
-        else if(choice == 4)
-        {
-            displayReports();
-        }
-
-        else if(choice == 5)
-        {
-            printf("EXITING THE SYSTEM.\n");
-        }
-
-    } while(choice ! = 5);
-
-    return 0;
-}
 
 
