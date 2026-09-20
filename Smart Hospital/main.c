@@ -207,7 +207,7 @@ void registerPatient()
 {
 //Registration form.
 
-    printf("--- PATIENT REGISTRATION ---\n");
+    printf("\n--- PATIENT REGISTRATION ---\n\n");
 
     //Name Input
     printf("Enter patient name: ");
@@ -247,7 +247,9 @@ void registerPatient()
     if(allocateBed(patientCount))
     {
 
-        printf("BED ALLOCATED SUCCESSFULLY.\n");
+        printf("\nBED ALLOCATED SUCCESSFULLY.\n\n");
+
+        printf("Bed Number : %d\n\n", bedNumber[patientCount]);
     }
     else
     {
@@ -278,7 +280,7 @@ void registerPatient()
 
     savePatientRecord(patientCount - 1);
 
-    printf("--- PATIENT REGISTERED SUCCESSFULLY. --- \n");
+    printf("--- PATIENT REGISTERED SUCCESSFULLY. --- \n\n");
 
 
 }
@@ -441,7 +443,7 @@ void showPatientBill()
 
     if(patientCount == 0)
     {
-        printf("NO PATIENT REGISTERED.\n");
+        printf("NO PATIENT REGISTERED.\n\n");
 
         return;
     }
@@ -490,13 +492,13 @@ void reportPatientsByUrgency()
     }
 
 
-    printf("\n--- PATIENTS BY URGENCY ---\n");
+    printf("\n--- PATIENTS BY URGENCY ---\n\n");
 
-    printf("Normal Patients : %d\n", normal);
+    printf("Normal Patients : %d\n\n", normal);
 
-    printf("Urgent Patients : %d\n", urgent);
+    printf("Urgent Patients : %d\n\n", urgent);
 
-    printf("Critical Patients : %d\n", critical);
+    printf("Critical Patients : %d\n\n", critical);
 }
 
 //ii)total revenue and total discounts.
@@ -514,9 +516,9 @@ void reprotRevenue()
 
     printf("\n--- REVENUE REPORT ---\n");
 
-    printf("Total Revenue : Rs.%.2f\n", totalRevenue);
+    printf("Total Revenue : Rs.%.2f\n\n", totalRevenue);
 
-    printf("Total Discounts : Rs%.2f\n", totalDiscount);
+    printf("Total Discounts : Rs%.2f\n\n", totalDiscount);
 
 }
 
@@ -527,7 +529,7 @@ void reprotRevenue()
 
 void reportBedOccupancy()
 {
-    printf("\n--- BED OCCUPANCY REPORT ---\n");
+    printf("\n--- BED OCCUPANCY REPORT ---\n\n");
 
 
     for (int i = 0; i < 4; i++)
@@ -570,11 +572,11 @@ void reportHighestPayingPatient()
         }
     }
 
-    printf("\n--- HIGHEST PAYING PATIENT ---\n");
+    printf("\n--- HIGHEST PAYING PATIENT ---\n\n");
 
-    printf("Patient Name : %s\n", patientName[highestIndex]);
+    printf("Patient Name : %s\n\n", patientName[highestIndex]);
 
-    printf("Final Payable : Rs.%.2f\n", finalPayable[highestIndex]);
+    printf("Final Payable : Rs.%.2f\n\n", finalPayable[highestIndex]);
 }
 
 //COMBINE REPORT INTO MENU
@@ -594,7 +596,7 @@ void displayReports()
 
 void displayMenu()
 {
-    printf("\n=============SMART HOSPITAL SYSTEM=============\n");
+    printf("=============SMART HOSPITAL SYSTEM=============\n\n");
 
     printf("(1). RegisterPatient\n");
 
@@ -654,7 +656,7 @@ void loadBedStatus()
 
     if(file == NULL)
     {
-        printf("NO PREVIOUS BED STATUS FOUND.\n");
+        printf("NO PREVIOUS BED STATUS FOUND.\n\n");
 
         return;
     }
@@ -667,17 +669,81 @@ void loadBedStatus()
             fscanf(file, "%d", &bedOccupancy[i][j]); //This reads an integer from the file and stores it in bedOccupancy[i][j]
         }
 
+        printf("\nBED STATUS SAVED SUCCESSFULLY.\n");
+
     }
 
 
     fclose(file);
 
 
-    printf("BED STATUS LOADED SUCCESSFULLY.\n");
-
 }
 
 
+int main(void)
+{
+    int choice; //The 'choice' variable stores the option selected by the user.
 
+
+    loadBedStatus();
+
+
+    do //The menu is displayed at least once and the system continuous running until the user selects option 5.
+    {
+        displayMenu();
+
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch(choice)
+        {
+            case 1:
+                registerPatient();
+
+                break;
+
+            case 2:
+                sortPatients();
+
+                printf("\nPATIENTS SORTED SUCCESSFULLY\n");
+
+                break;
+
+            case 3:
+                showPatientBill();
+                break;
+
+            case 4:
+                displayReports();
+
+                break;
+
+            case 5:
+                saveBedStatus();
+
+                break;
+
+            case 6:
+                loadBedStatus();
+
+                break;
+
+            case 7:
+                saveBedStatus();
+
+                printf("\n\nEXITING THE SYSTEM\n");
+
+                break;
+
+
+            default:
+                printf("\n\nINVALID CHOICE.\n");
+        }
+
+
+    } while(choice != 7);//Choice is not equal to 7
+
+    return 0;
+}
 
 

@@ -7,4 +7,37 @@ Age Discount : 0.00
 ---------------------------------Patient Name : efgh
 Final Payable : 21000.00
 Age Discount : 0.00
+---------------------------------Patient Name : Kamal Perera
+Final Payable : 14000.00
+Age Discount : 0.00
+---------------------------------Patient Name : Kamal perera
+Final Payable : 14000.00
+Age Discount : 0.00
+---------------------------------Patient Name : Kamal Perera
+Final Payable : 23400.00
+Age Discount : 0.00
+---------------------------------Patient Name : Kamal Perera
+Final Payable : 14000.00
+Age Discount : 0.00
+---------------------------------Patient Name : Kamal Perera
+Final Payable : 14000.00
+Age Discount : 0.00
+---------------------------------Patient Name : Kamal Perera
+Final Payable : 14000.00
+Age Discount : 0.00
+---------------------------------Patient Name : Kamal Perera
+Final Payable : 14000.00
+Age Discount : 0.00
+---------------------------------Patient Name : Nimal Silva
+Final Payable : 23400.00
+Age Discount : 0.00
+---------------------------------Patient Name : Sunil Almeda
+Final Payable : 14000.00
+Age Discount : 0.00
+---------------------------------Patient Name : Kamal Perera
+Final Payable : 14000.00
+Age Discount : 0.00
+---------------------------------Patient Name : Nimal Silva
+Final Payable : 11400.00
+Age Discount : 0.00
 ---------------------------------
